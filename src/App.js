@@ -1,6 +1,10 @@
-import React, { useReducer, useState } from 'react';
+import React, { lazy, Suspense, useReducer, useState } from 'react';
 import './App.css';
-import RiverInformation from './components/RiverInformation/RiverInformation';
+// import RiverInformation from './components/RiverInformation/RiverInformation';
+
+// const RiverInformation = lazy(() => import('./components/RiverInformation/RiverInformation'));
+// TO GIVE THE CHUNK IN Network Tab a specific name 
+const RiverInformation = lazy(() => import(/* webpackChunkName: "RiverInformation" */ './components/RiverInformation/RiverInformation'));
 
 function App() {
   const [river, setRiver] = useState('nile');
@@ -13,7 +17,10 @@ function App() {
       <button onClick={() => setRiver('amazon')}>Amazon</button>
       <button onClick={() => setRiver('yangtze')}>Yangtze</button>
       <button onClick={() => setRiver('mississippi')}>Mississippi</button>
-      {show && <RiverInformation name={river} />}
+      {/* {show && <RiverInformation name={river} />} */}
+      <Suspense fallback={<div>Loading Component</div>}>
+        {show && <RiverInformation name={river} />}
+      </Suspense>
     </div>
   );
 }
